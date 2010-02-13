@@ -12,3 +12,6 @@ noh
 
 " Don't let white space hide
 set list
+
+" User hasn't modified it yet
+set nomodified

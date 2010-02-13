@@ -64,7 +64,10 @@ Public Sub DoLaunchVIM(MailAction$)
     Const VIMLookLocation = "C:\Jeenu\tmp\vimlook\vimlook.vim"
     Const VIMMailHeader =  "DDD, MMM dd, yyyy at HH:mm:ss"
 
-    Dim ol, insp, item, body, fso, tempfile, tfolder, tname, tfile, appRef, x, datestr, sender
+    Dim ol, insp, item, body, fso, tempfile, tfolder, _
+        tname, tstream, appRef, x, datestr, sender, _
+        tfile, tmp
+    Dim oldfilesize as Integer, newfilesize as Integer
 
     Set ol = Application
 
@@ -83,16 +86,38 @@ Public Sub DoLaunchVIM(MailAction$)
     datestr = Format(item.SentOn, VIMMailHeader)
     sender = item.SenderName
 
+    ' We don't need the old item anymore
+    item.Close olDiscard
 
+
+    ' Create a file system object
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set tfolder = fso.GetSpecialFolder(TemporaryFolder)
     tname = fso.GetTempName
-    Set tfile = tfolder.CreateTextFile(tname)
-    ' Write the header too so that VIM don't have to bother about formatting the header
-    tfile.Write("On " & datestr & ", " & sender & " wrote:" & vbNewLine)
-    tfile.Write(body)
-    tfile.Close
 
+    ' Open a text stream
+    Set tstream = tfolder.CreateTextFile(tname)
+
+    ' Write the header too so that VIM don't have to bother about formatting the header
+    tstream.Write("On " & datestr & ", " & sender & " wrote:" & vbNewLine)
+    tstream.Write(body)
+    tstream.Close
+
+    ' Get File object of this file before user edits it
+    oldfilesize = fso.GetFile(tfolder.Path & "\" & tname).Size
+
+    ExecCmd VIMLocation & " " & Chr(34) & tfolder.Path & "\" & tname & Chr(34) & " " & Chr(34) & "+so " & VIMLookLocation & Chr(34)
+
+    ' Get File object of this file after user edits it
+    newfilesize = fso.GetFile(tfolder.Path & "\" & tname).Size
+
+    If newfilesize = oldfilesize Then
+        ' User might have just :wq! 'ed
+        fso.DeleteFile (tfolder.Path & "\" & tname)
+        Exit Sub
+    End If
+
+    Set tstream = fso.OpenTextFile(tfolder.Path & "\" & tname, 1)
     Dim newItem As Outlook.MailItem
 
     Select Case MailAction$
@@ -104,17 +129,11 @@ Public Sub DoLaunchVIM(MailAction$)
             Set newItem = item.Forward
     End Select
 
-    item.Close olDiscard
-
-    ExecCmd VIMLocation & " " & Chr(34) & tfolder.Path & "\" & tname & Chr(34) & " " & Chr(34) & "+so " & VIMLookLocation & Chr(34)
-
-    Set tfile = fso.OpenTextFile(tfolder.Path & "\" & tname, 1)
-    newItem.body = tfile.ReadAll
-    tfile.Close
+    newItem.body = tstream.ReadAll
+    tstream.Close
 
     fso.DeleteFile (tfolder.Path & "\" & tname)
     newItem.Display
-
 End Sub
 
 Public Sub ExecCmd(cmdline$)
