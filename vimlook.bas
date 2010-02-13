@@ -62,8 +62,9 @@ Public Sub DoLaunchVIM(MailAction$)
     Const TemporaryFolder = 2
     Const VIMLocation = "C:\Program Files\Vim\vim72\gvim.exe"
     Const VIMLookLocation = "C:\Jeenu\tmp\vimlook\vimlook.vim"
+    Const VIMMailHeader =  "DDD, MMM dd, yyyy at HH:mm:ss"
 
-    Dim ol, insp, item, body, fso, tempfile, tfolder, tname, tfile, appRef, x
+    Dim ol, insp, item, body, fso, tempfile, tfolder, tname, tfile, appRef, x, datestr, sender
 
     Set ol = Application
 
@@ -78,11 +79,18 @@ Public Sub DoLaunchVIM(MailAction$)
 
     body = CStr(item.body)
 
+    ' Get required itmes to build mail header string
+    datestr = Format(item.SentOn, VIMMailHeader)
+    sender = item.SenderName
+
+
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set tfolder = fso.GetSpecialFolder(TemporaryFolder)
     tname = fso.GetTempName
     Set tfile = tfolder.CreateTextFile(tname)
-    tfile.Write (body)
+    ' Write the header too so that VIM don't have to bother about formatting the header
+    tfile.Write("On " & datestr & ", " & sender & " wrote:" & vbNewLine)
+    tfile.Write(body)
     tfile.Close
 
     Dim newItem As Outlook.MailItem
