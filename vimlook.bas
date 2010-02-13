@@ -64,18 +64,19 @@ Public Sub DoLaunchVIM(MailAction$)
     Const VIMLookLocation = "C:\Jeenu\tmp\vimlook\vimlook.vim"
     Const VIMMailHeader =  "DDD, MMM dd, yyyy at HH:mm:ss"
 
-    Dim ol, insp, item, body, fso, tempfile, tfolder, _
+    Dim ol, item, body, fso, tempfile, tfolder, _
         tname, tstream, appRef, x, datestr, sender, _
         tfile, tmp
     Dim oldfilesize as Integer, newfilesize as Integer
 
     Set ol = Application
 
-    Set insp = ol.ActiveInspector
-    If insp Is Nothing Then
-        Exit Sub
+    If ol.ActiveInspector Is Nothing Then
+        Set item = ol.GetNamespace("MAPI").GetItemFromID(ol.ActiveExplorer.Selection.item(1).EntryID)
+    Else
+        Set item = ol.ActiveInspector.CurrentItem
     End If
-    Set item = insp.CurrentItem
+
     If item Is Nothing Then
         Exit Sub
     End If
@@ -88,7 +89,6 @@ Public Sub DoLaunchVIM(MailAction$)
 
     ' We don't need the old item anymore
     item.Close olDiscard
-
 
     ' Create a file system object
     Set fso = CreateObject("Scripting.FileSystemObject")
