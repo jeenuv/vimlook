@@ -79,6 +79,10 @@ Sub LaunchVIM()
     tfile.Write (body)
     tfile.Close
 
+    Dim newItem As Outlook.MailItem
+    Set newItem = item.Reply
+    item.Close olDiscard
+
     ExecCmd VIMLocation & " " & Chr(34) & tfolder.Path & "\" & tname & Chr(34) & " " & Chr(34) & "+so " & VIMLookLocation & Chr(34)
 
     Set tfile = fso.OpenTextFile(tfolder.Path & "\" & tname, 1)
@@ -86,6 +90,7 @@ Sub LaunchVIM()
     tfile.Close
 
     fso.DeleteFile (tfolder.Path & "\" & tname)
+    newItem.Display
 
 End Sub
 
