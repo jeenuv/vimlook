@@ -49,7 +49,7 @@ Sub LaunchVIM()
 
     Const TemporaryFolder = 2
     Const VIMLocation = "C:\Program Files\Vim\vim72\gvim.exe"
-    Const VIMLookLocation = "C:\vimlook.vim"
+    Const VIMLookLocation = "C:\Jeenu\tmp\vimlook\vimlook.vim"
 
     Dim ol, insp, item, body, fso, tempfile, tfolder, tname, tfile, appRef, x
 
