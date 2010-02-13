@@ -54,7 +54,8 @@ Sub LaunchVIM()
     'Shell (windir & "\system32\cscript.exe " & windir & "\system32\launchvim.vbs")
 
     Const TemporaryFolder = 2
-    Const VIMLocation = "C:\Program Files\Vim\vim70\gvim.exe"
+    Const VIMLocation = "C:\Program Files\Vim\vim72\gvim.exe"
+    Const VIMLookLocation = "C:\vimlook.vim"
 
     Dim ol, insp, item, body, fso, tempfile, tfolder, tname, tfile, appRef, x
 
@@ -78,7 +79,7 @@ Sub LaunchVIM()
     tfile.Write (Replace(body, Chr(13) & Chr(10), Chr(10)))
     tfile.Close
 
-    ExecCmd VIMLocation & " " & Chr(34) & tfolder.Path & "\" & tname & Chr(34)
+    ExecCmd VIMLocation & " " & Chr(34) & tfolder.Path & "\" & tname & Chr(34) & " " & Chr(34) & "+so " & VIMLookLocation & Chr(34)
 
     Set tfile = fso.OpenTextFile(tfolder.Path & "\" & tname, 1)
     item.body = Replace(tfile.ReadAll, Chr(10), Chr(13) & Chr(10))
