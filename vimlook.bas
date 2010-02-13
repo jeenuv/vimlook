@@ -76,13 +76,13 @@ Sub LaunchVIM()
     Set tfolder = fso.GetSpecialFolder(TemporaryFolder)
     tname = fso.GetTempName
     Set tfile = tfolder.CreateTextFile(tname)
-    tfile.Write (Replace(body, Chr(13) & Chr(10), Chr(10)))
+    tfile.Write (body)
     tfile.Close
 
     ExecCmd VIMLocation & " " & Chr(34) & tfolder.Path & "\" & tname & Chr(34) & " " & Chr(34) & "+so " & VIMLookLocation & Chr(34)
 
     Set tfile = fso.OpenTextFile(tfolder.Path & "\" & tname, 1)
-    item.body = Replace(tfile.ReadAll, Chr(10), Chr(13) & Chr(10))
+    newItem.body = tfile.ReadAll
     tfile.Close
 
     fso.DeleteFile (tfolder.Path & "\" & tname)
