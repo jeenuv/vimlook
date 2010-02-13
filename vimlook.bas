@@ -47,12 +47,6 @@ Private Const INFINITE = -1&
 
 Sub LaunchVIM()
 
-    'Dim windir As String
-
-    'windir = Environ("WinDir")
-
-    'Shell (windir & "\system32\cscript.exe " & windir & "\system32\launchvim.vbs")
-
     Const TemporaryFolder = 2
     Const VIMLocation = "C:\Program Files\Vim\vim72\gvim.exe"
     Const VIMLookLocation = "C:\vimlook.vim"
