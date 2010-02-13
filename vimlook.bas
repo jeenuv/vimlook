@@ -45,7 +45,19 @@ Private Declare Function CloseHandle Lib "kernel32" (ByVal _
 Private Const NORMAL_PRIORITY_CLASS = &H20&
 Private Const INFINITE = -1&
 
-Sub LaunchVIM()
+Sub VIMReply()
+    DoLaunchVIM("Reply")
+End Sub
+
+Sub VIMReplyAll()
+    DoLaunchVIM("ReplyAll")
+End Sub
+
+Sub VIMForward()
+    DoLaunchVIM("Forward")
+End Sub
+
+Public Sub DoLaunchVIM(MailAction$)
 
     Const TemporaryFolder = 2
     Const VIMLocation = "C:\Program Files\Vim\vim72\gvim.exe"
@@ -74,7 +86,16 @@ Sub LaunchVIM()
     tfile.Close
 
     Dim newItem As Outlook.MailItem
-    Set newItem = item.Reply
+
+    Select Case MailAction$
+        Case "Reply"
+            Set newItem = item.Reply
+        Case "ReplyAll"
+            Set newItem = item.ReplyAll
+        Case "Forward"
+            Set newItem = item.Forward
+    End Select
+
     item.Close olDiscard
 
     ExecCmd VIMLocation & " " & Chr(34) & tfolder.Path & "\" & tname & Chr(34) & " " & Chr(34) & "+so " & VIMLookLocation & Chr(34)
