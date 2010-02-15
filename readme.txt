@@ -44,7 +44,6 @@ TODO:
     * Spawn a thread? Not sure if that's supported in VBA
     * Write and external VB/VB.Net script
 
- * Able to lauch a new mail from VIM?
  * Compose and send directly from VIM?
  * Make the formatting more intelligent and civilized. Possibly write a VIM
    function and assign to 'formatexpr'. It should take care of formatting

@@ -61,6 +61,10 @@ Sub VIMEdit()
     DoLaunchVIM("Edit")
 End Sub
 
+Sub VIMNew()
+    DoLaunchVIM("New")
+End Sub
+
 Public Sub DoLaunchVIM(MailAction$)
 
     Const TemporaryFolder = 2
@@ -74,10 +78,14 @@ Public Sub DoLaunchVIM(MailAction$)
 
     Set ol = Application
 
-    If ol.ActiveInspector Is Nothing Then
-        Set item = ol.GetNamespace("MAPI").GetItemFromID(ol.ActiveExplorer.Selection.item(1).EntryID)
+    If MailAction$ <> "New" Then
+        If ol.ActiveInspector Is Nothing Then
+            Set item = ol.GetNamespace("MAPI").GetItemFromID(ol.ActiveExplorer.Selection.item(1).EntryID)
+        Else
+            Set item = ol.ActiveInspector.CurrentItem
+        End If
     Else
-        Set item = ol.ActiveInspector.CurrentItem
+        Goto CreateFile:
     End If
 
     If item Is Nothing Then
@@ -95,6 +103,7 @@ Public Sub DoLaunchVIM(MailAction$)
     ' We don't need the old item anymore
     item.Close olDiscard
 
+CreateFile:
     ' Create a file system object
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set tfolder = fso.GetSpecialFolder(TemporaryFolder)
@@ -103,11 +112,14 @@ Public Sub DoLaunchVIM(MailAction$)
     ' Open a text stream
     Set tstream = tfolder.CreateTextFile(tname)
 
-    if MailAction$ <> "Edit" Then
-        ' Write the header too so that VIM don't have to bother about formatting the header
-        tstream.Write("On " & datestr & ", " & sender & " wrote:" & vbNewLine)
+    if MailAction$ <> "New" Then
+        if MailAction$ <> "Edit" Then
+            ' Write the header too so that VIM don't have to bother about formatting the header
+            tstream.Write("On " & datestr & ", " & sender & " wrote:" & vbNewLine)
+        End If
+        tstream.Write(body)
     End If
-    tstream.Write(body)
+
     tstream.Close
 
     Dim filename
@@ -139,6 +151,8 @@ Public Sub DoLaunchVIM(MailAction$)
             Set newItem = item.Forward
         Case "Edit"
             Set newItem = item
+        Case "New"
+            Set newItem = Application.CreateItem(olMailItem)
     End Select
 
     newItem.BodyFormat = olFormatPlain
