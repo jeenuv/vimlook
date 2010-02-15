@@ -43,7 +43,6 @@ Private Declare Function CloseHandle Lib "kernel32" (ByVal _
    hObject As Long) As Long
 
 Private Const NORMAL_PRIORITY_CLASS = &H20&
-Private Const INFINITE = -1&
 
 Sub VIMReply()
     DoLaunchVIM("Reply")
@@ -178,7 +177,7 @@ Public Sub ExecCmd(cmdline$)
 
     ' Wait for the shelled application to finish:
     Do
-        ReturnValue = WaitForSingleObject(proc.hProcess, 0)
+        ReturnValue = WaitForSingleObject(proc.hProcess, 100)
         DoEvents
     Loop Until ReturnValue <> 258
 
