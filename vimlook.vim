@@ -19,3 +19,6 @@ set nomodified
 " Detect and format lists accordingly
 set formatoptions+=n
 set formatlistpat=^\\s*\\%([A-Za-z]\\\|[0-9]\\+\\\|[*-]\\)[]:.)}\\t\ ]\\s*
+
+" It's handy to have a gqip
+nmap <leader>f gqip
