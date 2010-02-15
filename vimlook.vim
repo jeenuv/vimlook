@@ -18,4 +18,4 @@ set nomodified
 
 " Detect and format lists accordingly
 set formatoptions+=n
-set formatlistpat=^\\s*\\%([A-Za-z]\\\|[0-9]\\+\\)[]:.)}\\t\ ]\\s*
+set formatlistpat=^\\s*\\%([A-Za-z]\\\|[0-9]\\+\\\|[*-]\\)[]:.)}\\t\ ]\\s*
