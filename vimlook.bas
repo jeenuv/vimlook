@@ -57,6 +57,10 @@ Sub VIMForward()
     DoLaunchVIM("Forward")
 End Sub
 
+Sub VIMEdit()
+    DoLaunchVIM("Edit")
+End Sub
+
 Public Sub DoLaunchVIM(MailAction$)
 
     Const TemporaryFolder = 2
@@ -83,9 +87,11 @@ Public Sub DoLaunchVIM(MailAction$)
 
     body = CStr(item.body)
 
-    ' Get required itmes to build mail header string
-    datestr = Format(item.SentOn, VIMMailHeader)
-    sender = item.SenderName
+    if MailAction$ <> "Edit" Then
+        ' Get required itmes to build mail header string
+        datestr = Format(item.SentOn, VIMMailHeader)
+        sender = item.SenderName
+    End If
 
     ' We don't need the old item anymore
     item.Close olDiscard
@@ -98,8 +104,10 @@ Public Sub DoLaunchVIM(MailAction$)
     ' Open a text stream
     Set tstream = tfolder.CreateTextFile(tname)
 
-    ' Write the header too so that VIM don't have to bother about formatting the header
-    tstream.Write("On " & datestr & ", " & sender & " wrote:" & vbNewLine)
+    if MailAction$ <> "Edit" Then
+        ' Write the header too so that VIM don't have to bother about formatting the header
+        tstream.Write("On " & datestr & ", " & sender & " wrote:" & vbNewLine)
+    End If
     tstream.Write(body)
     tstream.Close
 
@@ -127,6 +135,8 @@ Public Sub DoLaunchVIM(MailAction$)
             Set newItem = item.ReplyAll
         Case "Forward"
             Set newItem = item.Forward
+        Case "Edit"
+            Set newItem = item
     End Select
 
     newItem.BodyFormat = olFormatPlain

@@ -45,5 +45,4 @@ TODO:
     * Write and external VB/VB.Net script
 
  * Able to lauch a new mail from VIM?
- * How to manage drafts?
  * Compose and send directly from VIM
