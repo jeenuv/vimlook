@@ -2,23 +2,19 @@ setf mail
 set tw=72
 set ff=dos
 
-" Format lines according to width
-normal 2GVGgq
-
-" Quote replies and temporarily turn highlighting off
-silent! 2,$s/^/> /
-silent! 2,$s/\s*$//
-noh
-
 " Don't let white space hide
 set list
-
-" User hasn't modified it yet
-set nomodified
 
 " Detect and format lists accordingly
 set formatoptions+=n
 set formatlistpat=^\\s*\\%([A-Za-z]\\\|[0-9]\\+\\\|[*-]\\)[]:.)}\\t\ ]\\s*
 
-" It's handy to have a gqip
+" It's handy to have a quick gqip
 nmap <leader>f gqip
+
+" Quote and reply for selected text. <leader>q is already mapped by
+" mail.vim ftplugin for quoting
+exe "vmap \<leader>r \<ESC>`>ma`>mbo\<CR>\<ESC>`av`b\<leader>q\<leader>f2ji"
+
+" Got to the start of reply
+normal 2G
