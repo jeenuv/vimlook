@@ -14,7 +14,7 @@ nmap <leader>f gqip
 
 " Quote and reply for selected text. <leader>q is already mapped by
 " mail.vim ftplugin for quoting
-exe "vmap \<leader>r \<ESC>`>ma`>mbo\<CR>\<ESC>`av`b\<leader>q\<leader>f2ji"
+exe "vmap \<leader>r \<ESC>`<ma`>mbi\<CR>\<CR>\<ESC>'aV'bgq'aV'b\<leader>q'b2j"
 
 " Remove stray hex characters that looks like space
 silent! %s/\%xa0/ /g
