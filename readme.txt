@@ -45,4 +45,8 @@ TODO:
     * Write and external VB/VB.Net script
 
  * Able to lauch a new mail from VIM?
- * Compose and send directly from VIM
+ * Compose and send directly from VIM?
+ * Make the formatting more intelligent and civilized. Possibly write a VIM
+   function and assign to 'formatexpr'. It should take care of formatting
+   lines that are less than 'tw' length (which is currently messed by the
+   normal gq). Also it should leave the already-quoted part of reply alone
