@@ -70,8 +70,7 @@ Public Sub DoLaunchVIM(MailAction$)
 
     Dim ol, item, body, fso, tempfile, tfolder, _
         tname, tstream, appRef, x, datestr, sender, _
-        tfile, tmp
-    Dim oldfilesize as Integer, newfilesize as Integer
+        tfile, tmp, oldtimestamp, newtimestamp
 
     Set ol = Application
 
@@ -111,21 +110,24 @@ Public Sub DoLaunchVIM(MailAction$)
     tstream.Write(body)
     tstream.Close
 
-    ' Get File object of this file before user edits it
-    oldfilesize = fso.GetFile(tfolder.Path & "\" & tname).Size
+    Dim filename
+    filename = tfolder.Path & "\" & tname
 
-    ExecCmd VIMLocation & " " & Chr(34) & tfolder.Path & "\" & tname & Chr(34) & " " & Chr(34) & "+so " & VIMLookLocation & Chr(34)
+    ' Get File object of this file before user edits it
+    oldtimestamp = fso.GetFile(filename).DateLastModified
+
+    ExecCmd VIMLocation & " " & Chr(34) & filename & Chr(34) & " " & Chr(34) & "+so " & VIMLookLocation & Chr(34)
 
     ' Get File object of this file after user edits it
-    newfilesize = fso.GetFile(tfolder.Path & "\" & tname).Size
+    newtimestamp = fso.GetFile(filename).DateLastModified
 
-    If newfilesize = oldfilesize Then
+    If oldtimestamp = newtimestamp Then
         ' User might have just :wq! 'ed
-        fso.DeleteFile (tfolder.Path & "\" & tname)
+        fso.DeleteFile (filename)
         Exit Sub
     End If
 
-    Set tstream = fso.OpenTextFile(tfolder.Path & "\" & tname, 1)
+    Set tstream = fso.OpenTextFile(filename, 1)
     Dim newItem As Outlook.MailItem
 
     Select Case MailAction$
@@ -143,7 +145,7 @@ Public Sub DoLaunchVIM(MailAction$)
     newItem.body = tstream.ReadAll
     tstream.Close
 
-    fso.DeleteFile (tfolder.Path & "\" & tname)
+    fso.DeleteFile (filename)
     newItem.Display
 End Sub
 
