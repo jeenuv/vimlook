@@ -6,7 +6,7 @@ set ff=dos
 set list
 
 " Detect and format lists accordingly
-set formatoptions+=n
+set formatoptions=tan
 set formatlistpat=^\\s*\\%([A-Za-z]\\\|[0-9]\\+\\\|[*-]\\)[]:.)}\\t\ ]\\s*
 
 " It's handy to have a quick gqip
