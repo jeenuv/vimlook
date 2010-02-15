@@ -129,6 +129,7 @@ Public Sub DoLaunchVIM(MailAction$)
             Set newItem = item.Forward
     End Select
 
+    newItem.BodyFormat = olFormatPlain
     newItem.body = tstream.ReadAll
     tstream.Close
 
