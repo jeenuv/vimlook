@@ -66,6 +66,8 @@ End Sub
 
 Public Sub DoLaunchVIM(MailAction$)
 
+    On Error GoTo VIMError
+
     Const TemporaryFolder = 2
     Const VIMLocation = "C:\Program Files\Vim\vim72\gvim.exe"
     Const VIMLookLocation = "C:\Jeenu\tmp\vimlook\vimlook.vim"
@@ -84,7 +86,7 @@ Public Sub DoLaunchVIM(MailAction$)
             Set item = ol.ActiveInspector.CurrentItem
         End If
     Else
-        Goto CreateFile:
+        GoTo CreateFile:
     End If
 
     If item Is Nothing Then
@@ -93,7 +95,7 @@ Public Sub DoLaunchVIM(MailAction$)
 
     body = CStr(item.body)
 
-    if MailAction$ <> "Edit" Then
+    If MailAction$ <> "Edit" Then
         ' Get required itmes to build mail header string
         datestr = Format(item.SentOn, VIMMailHeader)
         sender = item.SenderName
@@ -111,8 +113,8 @@ CreateFile:
     ' Open a text stream
     Set tstream = tfolder.CreateTextFile(tname)
 
-    if MailAction$ <> "New" Then
-        if MailAction$ <> "Edit" Then
+    If MailAction$ <> "New" Then
+        If MailAction$ <> "Edit" Then
             ' Write the header too so that VIM don't have to bother about formatting the header
             tstream.Write("On " & datestr & ", " & sender & " wrote:" & vbNewLine)
         End If
@@ -160,6 +162,14 @@ CreateFile:
 
     fso.DeleteFile (filename)
     newItem.Display
+
+    Exit Sub
+VIMError:
+
+    MsgBox "An error has occured!" & vbNewLine & "Operation " & _
+           Chr(34) & MailAction$ & Chr(34) & " couldn't be performed. " & _
+           "May be you're not supposed to do that from here", _
+           vbCritical
 End Sub
 
 Public Sub ExecCmd(cmdline$)
