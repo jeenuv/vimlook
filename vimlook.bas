@@ -168,7 +168,7 @@ VIMError:
 
     MsgBox "An error has occured!" & vbNewLine & "Operation " & _
            Chr(34) & MailAction$ & Chr(34) & " couldn't be performed. " & _
-           "May be you're not supposed to do that from here", _
+           "You should select a mail item to use this function", _
            vbCritical
 End Sub
 
