@@ -18,6 +18,8 @@ exe "vmap \<leader>r \<ESC>`<ma`>mbi\<CR>\<CR>\<ESC>'aV'bgq'aV'b\<leader>q'b2j"
 
 " Remove stray hex characters that looks like space. This seems to be coming from bulleted lists
 silent! %s/\%xa0\+/ /g
+" Replace bullet characters with *
+silent! %s/\%xb7\+\s*/* /g
 " We don't want trailing white space either
 silent! %s/\s*$//
 
