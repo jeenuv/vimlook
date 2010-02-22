@@ -13,6 +13,9 @@ set formatlistpat=^\\s\\+(\\?\\%([A-Za-z]\\\|[0-9]\\+\\\|[*-]\\))\\?[:.]\\?\\s\\
 " It's handy to have a quick gqip
 nmap <leader>f gqip
 
+" Spell check on
+set spell
+
 " Quote and reply for selected text. <leader>q is already mapped by
 " mail.vim ftplugin for quoting
 exe "vmap \<leader>r \<ESC>`<ma`>mbi\<CR>\<C-U>\<CR>\<ESC>'aV'bgq'aV'b\<leader>q'b2j"
