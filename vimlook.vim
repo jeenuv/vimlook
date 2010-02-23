@@ -11,7 +11,7 @@ set formatoptions=tncrqo
 set formatlistpat=^\\s\\+(\\?\\%([A-Za-z]\\\|[0-9]\\+\\\|[*-]\\)[:.)]\\?\\s\\+
 
 " It's handy to have a quick gqip
-nmap <leader>f gqip
+nmap <leader>f gqip$
 
 " Spell check on
 set spell
