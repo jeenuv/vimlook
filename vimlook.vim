@@ -18,7 +18,7 @@ set spell
 
 " Quote and reply for selected text. <leader>q is already mapped by
 " mail.vim ftplugin for quoting
-exe "vmap \<leader>r \<ESC>`<ma`>mbi\<CR>\<C-U>\<CR>\<ESC>'aV'bgq'aV'b\<leader>q'b2j"
+exe "vmap \<leader>r :\<C-U>call DoQuote()\<CR>"
 
 " Remove stray hex characters that looks like space. This seems to be coming from bulleted lists
 silent! %s/\%xa0\+/ /g
@@ -45,3 +45,12 @@ set nomodified
 
 " Got to the start of reply
 normal 2G
+
+function DoQuote()
+    exe "normal `<ma`>mbi\<CR>\<C-U>\<CR>\<ESC>"
+    exe "set tw=" . (&tw - 2)
+    normal 'aV'bgq
+    silent! 'a,'bs/^/> /
+    normal 'b2j
+    exe "set tw=" . (&tw + 2)
+endfunction
