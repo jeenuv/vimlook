@@ -1,6 +1,6 @@
 setf mail
-set tw=72
-set ff=dos
+set textwidth=72
+set fileformat=dos
 
 " Don't let white space hide
 set list
