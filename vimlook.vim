@@ -57,6 +57,6 @@ endfunction
 
 command SetupMatch call _SetupMatch()
 function _SetupMatch()
-    match Error /\<\(\w\+\)\>\s\+\1/
+    match Error /\%(^[^ ]*\)\@<!\s\s\+\|\<\(\w\+\)\>\s\+\1/
 endfunction
 call _SetupMatch()
