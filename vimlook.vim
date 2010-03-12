@@ -16,9 +16,9 @@ nmap <leader>f gqip$
 " Spell check on
 set spell
 
-" Quote and reply for selected text. <leader>q is already mapped by
-" mail.vim ftplugin for quoting
+" Quote and reply for the currentl line or selected text
 exe "vmap \<leader>r :\<C-U>call DoQuote()\<CR>"
+exe "nmap \<leader>r vip\<leader>r"
 
 " Remove stray hex characters that looks like space. This seems to be coming from bulleted lists
 silent! %s/\%xa0\+/ /g
