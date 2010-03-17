@@ -57,6 +57,6 @@ endfunction
 
 command SetupMatch call _SetupMatch()
 function _SetupMatch()
-    exe 'match Error /\%(^[^ ]*\|^> .*\)\@<!\s\s\+\|\<\(\w\+\)\>\s\+\<\1\>\|\%>'.(&tw + 1).'c/'
+    exe 'match Error /\%(^\s*\|^> .*\)\@<!\s\s\+\|\<\(\w\+\)\>\s\+\<\1\>\|\%>'.(&tw + 1).'c/'
 endfunction
 call _SetupMatch()
