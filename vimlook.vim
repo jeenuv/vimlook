@@ -8,7 +8,7 @@ set list
 " Detect and format lists accordingly
 set comments=:>
 set formatoptions=tncrqo
-set formatlistpat=^\\s*\\%(\\%((\\?\\%([A-Z]\\\|[a-z]\\+\\\|\\d\\+\\)\\)[:.)]\\\|[-*+]\\)\\s\\+
+set formatlistpat=^\\s\\+\\%(\\%((\\?\\%([A-Z]\\\|[a-z]\\{1,3\\}\\\|\\d\\+\\)\\)[:.)]\\\|[-*+]\\)\\s\\+
 
 " It's handy to have a quick gqip
 nmap <leader>f gqip$
