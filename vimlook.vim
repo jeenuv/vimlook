@@ -16,9 +16,8 @@ nmap <leader>f gqip$
 " Spell check on
 set spell
 
-" Quote and reply for the currentl line or selected text
-exe "vmap \<leader>r :\<C-U>call DoQuote()\<CR>"
-exe "nmap \<leader>r vip\<leader>r"
+vmap > :<C-U>call DoQuote(v:count)<CR>
+nmap > vip>
 
 " Remove stray hex characters that looks like space. This seems to be coming from bulleted lists
 silent! %s/\%xa0\+/ /g
@@ -46,13 +45,21 @@ set nomodified
 " Got to the start of reply
 normal 2G
 
-function DoQuote()
-    exe "normal `<ma`>mbi\<CR>\<C-U>\<CR>\<ESC>"
-    exe "set tw=" . (&tw - 2)
+function DoQuote(level)
+    " Remove all quotes before
+    silent! '<,'>s/^\%(> \)*//g
+
+    " Determine the string to prefix with
+    let level = (a:level > 0) ? a:level : 1
+    let prefix_string = repeat("> ", level)
+
+    exe "normal `<ma`>mb"
+    let save_tw = &tw
+    exe "set tw=" . (&tw - (level * 2))
     normal 'aV'bgq
-    silent! 'a,'bs/^/> /
+    exe "silent! 'a,'bs/^/" . prefix_string . "/"
     normal 'b2j
-    exe "set tw=" . (&tw + 2)
+    exe "set tw=" . save_tw
 endfunction
 
 command SetupMatch call _SetupMatch()
