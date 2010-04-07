@@ -58,6 +58,7 @@ function DoQuote(level)
     exe "set tw=" . (&tw - (level * 2))
     normal 'aV'bgq
     exe "silent! 'a,'bs/^/" . prefix_string . "/"
+    silent! 'a,'bs/>  /> /g
     normal 'b2j
     exe "set tw=" . save_tw
 endfunction
