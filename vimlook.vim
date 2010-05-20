@@ -5,6 +5,10 @@ set fileformat=dos
 " Don't let white space hide
 set list
 
+" Set expand tabs, soft tab stop to 2 spaces
+set expandtab
+set softtabstop=2
+
 " Detect and format lists accordingly
 set comments=:>
 set formatoptions=tncrqo
