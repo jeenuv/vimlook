@@ -39,15 +39,15 @@ endwhile
 " Clear all highlighting from above search and replace
 noh
 
-" As if nothign happened...
+" As if nothing happened...
 set nomodified
 
 " Got to the start of reply
 normal 2G
 
 function DoQuote(level)
-    " Remove all quotes before
-    silent! '<,'>s/^\%(> \?\)*//g
+    " Remove all quotes before every line
+    silent! '<,'>s/^[> ]*>\s*//g
 
     " Determine the string to prefix with
     let level = (a:level > 0) ? a:level : 1
@@ -58,7 +58,7 @@ function DoQuote(level)
     exe "set tw=" . (&tw - (level * 2))
     normal 'aV'bgq
     exe "silent! 'a,'bs/^/" . prefix_string . "/"
-    silent! 'a,'bs/>  /> /g
+    silent! 'a,'bs/>\s\{2,\}>/> >/g
     normal 'b2j
     exe "set tw=" . save_tw
 endfunction

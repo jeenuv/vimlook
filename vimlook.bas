@@ -135,7 +135,7 @@ CreateFile:
     newtimestamp = fso.GetFile(filename).DateLastModified
 
     If oldtimestamp = newtimestamp And MailAction <> "Edit" Then
-        ' User might have just :wq! 'ed
+        ' User might have just :q! 'ed
         fso.DeleteFile (filename)
         Exit Sub
     End If
