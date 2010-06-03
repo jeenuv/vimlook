@@ -51,7 +51,7 @@ normal 2G
 
 function DoQuote(level)
     " Remove all quotes before every line
-    silent! '<,'>s/^[> ]*>\s*//g
+    silent! '<,'>s/^\(> \?\)*//g
 
     " Determine the string to prefix with
     let level = (a:level > 0) ? a:level : 1
