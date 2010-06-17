@@ -5,38 +5,63 @@ Vimlook is a VBA script M$ Outlook for launching VIM as its email editor. This
 script, as of now, can launch VIM for creating, editing, replying(-all) and
 forwading mails within Outlook.
 
-Howto use:
-==========
+Setup
+=====
 
- 0.  Place vimlook.bas and vimlook.vim in a directory.
- 1.  Make sure the paths in DoLaunchVIM subroutine in vimlook.bas file are
+ 0.  Before trying to setup Vimlook, you must enable macros in M$ Outlook. Go
+     to Tools -> Macro -> Security and select "No security checks for Macros",
+     and restart Outlook. You must be cautious in executing any other macros
+     since the security checks are disabled.
+ 1.  Place vimlook.bas and vimlook.vim in a directory.
+ 2.  Make sure the paths in DoLaunchVIM subroutine in vimlook.bas file are
      valid
- 2.  Open Outlook.
- 3.  Press Alt+F11 to launch Visual Basic editor.
- 4.  File -> Import. Locate and import vimlook.bas.
- 5.  Close Visual Basic editor and go to Outlook main window.
- 6.  View -> Toolbars -> Customize; and select the Commands tab.
- 7.  Select Macros from the list on the left hand side. You should now see
+ 3.  Open Outlook.
+ 4.  Press Alt+F11 to launch Visual Basic editor.
+ 5.  File -> Import. Locate and import vimlook.bas.
+ 6.  Close Visual Basic editor and go to Outlook main window.
+ 7.  View -> Toolbars -> Customize; and select the Commands tab.
+ 8.  Select Macros from the list on the left hand side. You should now see
      VIMForward, VIMReply and VIMReplyAll on the right hand side.
- 8.  Drag each of to a convenient location on the toolbar.
- 9.  Right-click on the newly-created toolbar button (witout closing the
+ 9.  Drag each of to a convenient location on the toolbar.
+ 10. Right-click on the newly-created toolbar button (witout closing the
      Customize dialog), and you can rename the label for your button. Also you
      can insert '&' character to create a keyboard shortcut. For example,
      renaming the VIMReply button as VIM&Reply will let you access the button
      with Alt+R short cut (Make sure your short cut doesn't conflict with that
      of Outlook's deafault ones).
- 10. In addition, you  can open a mail item in its own window, right-click on
-     the ribbon > Customize Quick Access Toolbar... You can add buttons to
+ 11. In addition, you  can open a mail item in its own window, right-click on
+     the ribbon -> Customize Quick Access Toolbar... You can add buttons to
      this window in similar way mentioned above to quickly access macros from
      this window.
- 11. Select a mail and click on the button on toolbar. It should now launch
-     VIM with mail formatted accordingly. Save and quit (:wq) and you'll get
-     the composed mail opened in Outlook ready to be sent.
  12. The file vimlook.vim is sourced before launching VIM. So you can
      customize your VIM settings there.
 
-TODO:
+Usage
 =====
+
+The VBA script has 5 entry points:
+
+ * VIMReply, VIMReplyAll, VIMForward are for replying, replying all and
+   forwarding mails that are already in Outlook. Select a mail item and invoke
+   the macro (either directly or via. the buttons added to toolbar as
+   described above). Finish your editing, do :wq, and you'll back in Outlook
+   with your edited mail opened ready to send
+ * VIMEdit is for editing a mail item that you've saved as Draft. Do not use it
+   for composing, replying or forwarding
+ * VIMNew is for composing a new mail with Vim
+
+The following features are offered
+
+ * Select relevant portion of mail and press > to quote and format. This can
+   optionally prefix with a count in which case the selected text will be
+   indented proportionately
+ * Select text and use \q to quote it without formatting
+ * Text exceeding the 72-column width are highligted in red. Use \f on a
+   paragraph to re-format it to 72-column width. If you happen to adjust text
+   width, use the command SetupMatch to re-highligt using the new text width
+
+TODO
+====
 
  * Once you've launched VIM, Outlook waits for you to close VIM window.
    Outlook experinece isn't that great until you close VIM, sadly. Possible
