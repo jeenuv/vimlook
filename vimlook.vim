@@ -3,6 +3,7 @@ set textwidth=72
 set fileformat=dos
 
 " Don't let white space hide
+set listchars=tab:>-,trail:~
 set list
 
 " Set expand tabs, soft tab stop to 2 spaces
