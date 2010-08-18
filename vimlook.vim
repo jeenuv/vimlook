@@ -74,6 +74,12 @@ endfunction
 " the text width value
 command SetupMatch call _SetupMatch()
 function _SetupMatch()
-    exe 'match Error /\%(^\s*\|^>.*\)\@<!\s\s\+\|\<\(\w\+\)\>\s\+\<\1\>\|\%>'.(&tw + 1).'c/'
+    if v:version > 702
+        exe 'match Error /\%(^\s*\|^>.*\)\@<!\s\s\+\|\<\(\w\+\)\>\s\+\<\1\>/'
+        " Using colorcolumn option to set right margin
+        exe 'set colorcolumn=' . (&tw + 1)
+    else
+        exe 'match Error /\%(^\s*\|^>.*\)\@<!\s\s\+\|\<\(\w\+\)\>\s\+\<\1\>\|\%>'.(&tw + 1).'c/'
+    endif
 endfunction
 call _SetupMatch()
