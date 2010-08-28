@@ -13,8 +13,12 @@ Setup
      and restart Outlook. You must be cautious in executing any other macros
      since the security checks are disabled.
  1.  Place vimlook.bas and vimlook.vim in a directory.
- 2.  Make sure the paths in DoLaunchVIM subroutine in vimlook.bas file are
-     valid
+ 2.  Right-click on My Computer Icon, then go to properties, then to Advanced
+     tab and then click Environment Variables. Create two user variables
+     VIMLOOK_VIM and VIMLOOK_LOC and assign them appropriate vales. For
+     example:
+     Set VIMLOOK_VIM to C:\Program Files\Vim\vim73\gvim.exe
+     Set VIMLOOK_LOC to C:\Jeenu\vimlook (no trailing back slash)
  3.  Open Outlook.
  4.  Press Alt+F11 to launch Visual Basic editor.
  5.  File -> Import. Locate and import vimlook.bas.
@@ -29,12 +33,14 @@ Setup
      renaming the VIMReply button as VIM&Reply will let you access the button
      with Alt+R short cut (Make sure your short cut doesn't conflict with that
      of Outlook's deafault ones).
- 11. In addition, you  can open a mail item in its own window, right-click on
-     the ribbon -> Customize Quick Access Toolbar... You can add buttons to
-     this window in similar way mentioned above to quickly access macros from
-     this window.
- 12. The file vimlook.vim is sourced before launching VIM. So you can
-     customize your VIM settings there.
+
+ Note:
+ - In addition, you  can open a mail item in its own window, right-click on
+   the ribbon -> Customize Quick Access Toolbar... You can add buttons to this
+   window in similar way mentioned above to quickly access macros from this
+   window.
+ - The file vimlook.vim is sourced before launching VIM. So you can customize
+   your VIM settings there.
 
 Usage
 =====

@@ -69,13 +69,21 @@ Public Sub DoLaunchVIM(MailAction$)
     On Error GoTo VIMError
 
     Const TemporaryFolder = 2
-    Const VIMLocation = "C:\Program Files\Vim\vim72\gvim.exe"
-    Const VIMLookLocation = "C:\Jeenu\tmp\vimlook\vimlook.vim"
     Const VIMMailHeader =  "DDD, MMM dd, yyyy at HH:mm:ss"
 
     Dim ol, item, body, fso, tempfile, tfolder, _
         tname, tstream, appRef, x, datestr, sender, _
         tfile, tmp, oldtimestamp, newtimestamp
+
+    Dim VIMLocation, VIMLookLocation
+    VIMLocation = Environ("VIMLOOK_VIM")
+    VIMLookLocation = Environ("VIMLOOK_LOC")
+
+    if VIMLocation = "" Or VIMLookLocation = "" Then
+        MsgBox "You need to set both VIMLOOK_VIM or VIMLOOK_LOC. " & _
+               "Refer Readme for more details.", vbCritical
+        Exit Sub
+    End If
 
     Set ol = Application
 
@@ -129,7 +137,8 @@ CreateFile:
     ' Get File object of this file before user edits it
     oldtimestamp = fso.GetFile(filename).DateLastModified
 
-    ExecCmd VIMLocation & " " & Chr(34) & filename & Chr(34) & " " & Chr(34) & "+so " & VIMLookLocation & Chr(34)
+    ExecCmd VIMLocation & " " & Chr(34) & filename & Chr(34) & " " & Chr(34) & _
+                        "+so " & VIMLookLocation & "\\vimlook.vim" & Chr(34)
 
     ' Get File object of this file after user edits it
     newtimestamp = fso.GetFile(filename).DateLastModified
