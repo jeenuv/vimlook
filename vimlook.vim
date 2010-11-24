@@ -28,17 +28,20 @@ nmap > vip>
 silent! %s/\%xa0\+/ /g
 " Replace bullet characters with *
 silent! %s/\%xb7\+\s*/* /g
-" We don't want trailing white space either
-silent! %s/\s*$//
 
-" Collapse multiple empty lines to a single one
 let i = 2
 while i < line("$")
-    if match(getline(i), '^\s*$') != -1 && match(getline(i + 1), '^\s*$') != -1
+    let line = getline(i)
+    if match(line, '^\s*$') != -1 && match(getline(i + 1), '^\s*$') != -1
+        " Collapse multiple empty lines to a single one
         exe i . " delete"
-    else
-        let i += 1
+        continue
+    elseif match(line, '^-- ') == -1
+        " Remove trailing white space, except for siglines
+        call setline(i, substitute(line, '\s*$', '', ''))
     endif
+
+    let i += 1
 endwhile
 
 " Clear all highlighting from above search and replace
