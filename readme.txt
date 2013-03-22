@@ -39,12 +39,17 @@ Setup
      Click -> Paste Button Image on the newly inserted button
 
  Note:
+
  - In addition, you  can open a mail item in its own window, right-click on
    the ribbon -> Customize Quick Access Toolbar... You can add buttons to this
    window in similar way mentioned above to quickly access macros from this
    window.
+
  - The file vimlook.vim is sourced before launching VIM. So you can customize
    your VIM settings there.
+
+
+See the screen.png file for an example
 
 Usage
 =====
@@ -53,19 +58,31 @@ The VBA script has 5 entry points:
 
  - VIMReply, VIMReplyAll, VIMForward are for replying, replying all and
    forwarding mails that are already in Outlook. Select a mail item and invoke
-   the macro (either directly or via. the buttons added to toolbar as
-   described above). Finish your editing, do :wq, and you'll back in Outlook
-   with your edited mail opened ready to send
+   the macro (either directly from Tools -> Macros, or via. the buttons added
+   to toolbar as described above). Finish your editing, do :wq, and you'll
+   back in Outlook with your edited mail opened ready to send
+
+   Note that this group of Macros will automatically insert a header of the
+   format
+
+   On <date>, <time>, <sender> wrote:
+
+   If you don't like the format, you can change the VIMMailHeader variable if
+   you know how to.
+
  - VIMEdit is for editing a mail item that you've saved as Draft. Do not use it
    for composing, replying or forwarding
+
  - VIMNew is for composing a new mail with Vim
 
-The following features are offered
+The following features are offered:
 
  - Select relevant portion of mail and press > to quote and format. This can
    optionally prefix with a count in which case the selected text will be
    indented proportionately
+
  - Select text and use \q to quote it without formatting
+
  - Text exceeding the 72-column width are highligted in red. Use \f on a
    paragraph to re-format it to 72-column width. If you happen to adjust text
    width, use the command SetupMatch to re-highligt using the new text width
